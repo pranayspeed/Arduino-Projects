@@ -1,0 +1,80 @@
+ /*
+  ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ 
+ |______|______|______|______|______|______|______|______|______|______|
+  ___   ___  ______     __  _       _      _ _                          
+ |__ \ / _ \|  _ \ \   / / | |     | |    (_) |                         
+    ) | (_) | |_) \ \_/ /  | |     | |     _| |__  _ __ __ _ _ __ _   _ 
+   / / > _ <|  _ < \   /   | |     | |    | | '_ \| '__/ _` | '__| | | |
+  / /_| (_) | |_) | | | |__| |     | |____| | |_) | | | (_| | |  | |_| |
+ |____|\___/|____/  |_|\____/      |______|_|_.__/|_|  \__,_|_|   \__, |
+                                                                   __/ |
+       V1.0                                                       |___/ 
+  ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ 
+ |______|______|______|______|______|______|______|______|______|______|
+*/
+
+------------------
+I - Introduction :
+------------------
+
+This library is made to run the 28BYJ-48 stepper motor with the arduino and the often-used ULN2003 motor driver, with happens to be uncompatible with the standard <Stepper.h> library. It is quite optimized, and uses the same syntaxe as the standard library.
+
+-------------------
+II - Functions    :
+-------------------
+
+Stepmotor(unsigned short int steps_per_revolution, byte IN1,byte IN2,byte IN3,byte IN4)
+
+This function is the constructor of the class. It is the function you have to call to creat a Stepmotor object. The steps_per_revolution variable is the number of steps for a full rotation. Should be 4096. All analog and digital pins may be used for the IN1 to IN4 pins. Do not forget to also plug the 5V input (preferably from an external source).
+Exemple: Stepmotor myStepper(4096, 2,3,4,5); //Create a Stepmotor object called myStepper that we will later rotate.
+
+-
+
+void step(long int steps)
+
+This function does the number of steps specified with the variable "steps". Positive number will move clockwise, and negative will move counter-clockwise.
+Example: myStepper.step(2048); //Does about half of a revolution clockwise.
+
+-
+
+void fadeInStep(long int steps)
+
+This function does the number of steps specified with the variable "steps", but will progressively accelerate. This allow you to get to higher RPM that 17 (with low torque), OR to keep precision when trying to move something that require torque, with a decent speed. Positive number will move clockwise, and negative will move counter-clockwise.
+WARNING : This function is experimental. Use at your own risks.
+Example: myStepper.fadeInStep(2048); //Does about half of a revolution clockwise, with the fade in feature.
+
+-
+
+void revolution(float revolutions)
+
+This function will do the specified amount of full revolutions. Basically similar to the step() function, but practicall to make a code where many full rotation are required easier to read. Positive number will move clockwise, and negative will move counter-clockwise.
+Example: myStepper.revolution(-3); //Does 3 full revolutions counter-clockwise.
+
+-
+
+void setSpeed(float rpm);
+
+This function lets you change the RPM of the motor. WARNING : it should be <17, else the motor will just vibrate, and may get damaged. It is important that you use it at least once for every motor to set them at your chosen value. If an invalid value is entered, it will auto-set itself to 10 (can be changed in the code of the library).
+Exemple: myStepper.setSpeed(8.5f);
+
+-
+
+float getSpeed();
+
+This function return the currend RPM of the motor. Can be useful to check things.
+Example: Serial.println(myStepper.getSpeed()); //Write the speed to the serial port
+
+-------------------
+III - Usage       :
+-------------------
+
+Please read the given example sketchs to get more detail on how to use the motors, with every function that exists in this library.
+
+-------------------
+IV - Credits      :
+-------------------
+
+It was made by Charles GRASSIN thanks to the work of XXXXXXXXXX on instructables. It is obvioulsy in the free domain, however, please consider citing my name if you post a new version of it, of use it partially, or completely, to create your own library.
+Thank for reading, hope this document helped <3
+
+PS : I may update this library if any bugs are reported to me. If you work of a long term project, please check on a regular basis if any new updates are available. And never forget that Arduino is sharing ;)
